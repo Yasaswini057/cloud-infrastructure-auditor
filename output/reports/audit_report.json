@@ -1,12 +1,11 @@
-def scan_ec2_instances():
-    """
-    Scan EC2 instances
-    """
-
-    return [
+{
+    "generated_at": "2026-05-13 10:50:18",
+    "total_resources": 1,
+    "resources": [
         {
             "InstanceId": "i-1234567890",
             "State": "running",
             "Type": "t2.micro"
         }
     ]
+}

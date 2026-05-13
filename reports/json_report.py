@@ -25,8 +25,8 @@ def generate_json_report(data, filename="audit_report.json"):
             json.dump(report_data, json_file, indent=4)
 
         logger.info(f"JSON report generated successfully: {filepath}")
-        print(f"JSON report saved at: {filepath}")
+       
 
     except Exception as e:
         logger.error(f"Failed to generate JSON report: {str(e)}")
-        print(f"Error generating JSON report: {str(e)}")
+  

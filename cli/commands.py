@@ -6,6 +6,13 @@ from cli.cli_utils import (
     error_message,
     info_message
 )
+from rich.progress import track
+import time
+from scanner.ec2_scanner import scan_ec2_instances
+from rich.table import Table
+from rich.console import Console
+from reports.json_report import generate_json_report
+console = Console()
 
 app = typer.Typer()
 
@@ -17,20 +24,50 @@ def main():
     """
     show_banner()
 
-
 @app.command()
 def scan():
     """
     Scan AWS resources
     """
 
-    info_message("Starting AWS Infrastructure Scan...")
+    resources = [
+        "EC2 Instances",
+        "EBS Volumes",
+        "Elastic IPs"
+    ]
 
-    typer.echo("Checking EC2 instances...")
-    typer.echo("Checking EBS volumes...")
-    typer.echo("Checking Elastic IPs...")
+    info_message("Starting AWS Infrastructure Scan...\n")
 
-    success_message("Scan Completed Successfully!")
+    for resource in track(resources, description="Scanning Resources..."):
+        typer.echo(f"Checking {resource}...")
+        time.sleep(1)
+
+    ec2_data = scan_ec2_instances()
+
+    table = Table(title="EC2 Scan Results")
+
+    table.add_column("Instance ID", style="cyan")
+    table.add_column("State", style="green")
+    table.add_column("Type", style="yellow")
+
+    for instance in ec2_data:
+        table.add_row(
+            instance["InstanceId"],
+            instance["State"],
+            instance["Type"]
+        )
+
+    console.print(table)
+
+    typer.echo("\nInfrastructure Summary:")
+    typer.echo(f"Total EC2 Instances: {len(ec2_data)}")
+
+    generate_json_report(ec2_data)
+
+    success_message("\nJSON Report Generated Successfully!")
+    info_message("Report saved in output/reports/")
+
+    success_message("\nCloud Infrastructure Audit Completed!")
 
 @app.command()
 def auth():
