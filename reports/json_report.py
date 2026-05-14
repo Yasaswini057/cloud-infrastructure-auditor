@@ -16,7 +16,13 @@ def generate_json_report(data, filename="audit_report.json"):
 
     report_data = {
         "generated_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-        "total_resources": len(data),
+
+        "summary": {
+            "total_ec2_instances": len(data.get("ec2_instances", [])),
+            "total_ebs_volumes": len(data.get("ebs_volumes", [])),
+            "total_elastic_ips": len(data.get("elastic_ips", []))
+        },
+
         "resources": data
     }
 

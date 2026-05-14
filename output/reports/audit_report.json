@@ -1,11 +1,13 @@
 {
-    "generated_at": "2026-05-13 10:50:18",
-    "total_resources": 1,
-    "resources": [
-        {
-            "InstanceId": "i-1234567890",
-            "State": "running",
-            "Type": "t2.micro"
-        }
-    ]
+    "generated_at": "2026-05-14 10:33:44",
+    "summary": {
+        "total_ec2_instances": 0,
+        "total_ebs_volumes": 0,
+        "total_elastic_ips": 0
+    },
+    "resources": {
+        "ec2_instances": [],
+        "ebs_volumes": [],
+        "elastic_ips": []
+    }
 }
