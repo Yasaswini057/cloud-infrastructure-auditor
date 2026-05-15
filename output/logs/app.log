@@ -18,3 +18,45 @@
 2026-05-14 10:31:15,072 - INFO - JSON report generated successfully: output/reports\audit_report.json
 2026-05-14 10:33:44,042 - ERROR - EC2 scanning failed: An error occurred (AuthFailure) when calling the DescribeInstances operation: AWS was not able to validate the provided access credentials
 2026-05-14 10:33:44,058 - INFO - JSON report generated successfully: output/reports\audit_report.json
+2026-05-15 18:56:49,760 - ERROR - EC2 scanning failed: An error occurred (AuthFailure) when calling the DescribeInstances operation: AWS was not able to validate the provided access credentials
+2026-05-15 18:56:53,849 - ERROR - EBS scanning failed: An error occurred (AuthFailure) when calling the DescribeVolumes operation: AWS was not able to validate the provided access credentials
+2026-05-15 18:56:53,872 - INFO - JSON report generated successfully: output/reports\audit_report.json
+2026-05-15 18:58:23,233 - ERROR - EC2 scanning failed: An error occurred (AuthFailure) when calling the DescribeInstances operation: AWS was not able to validate the provided access credentials
+2026-05-15 18:58:27,308 - ERROR - EBS scanning failed: An error occurred (AuthFailure) when calling the DescribeVolumes operation: AWS was not able to validate the provided access credentials
+2026-05-15 18:58:31,181 - ERROR - Elastic IP scanning failed: An error occurred (AuthFailure) when calling the DescribeAddresses operation: AWS was not able to validate the provided access credentials
+2026-05-15 18:58:31,282 - INFO - JSON report generated successfully: output/reports\audit_report.json
+2026-05-15 19:08:45,360 - ERROR - EC2 scanning failed: An error occurred (AuthFailure) when calling the DescribeInstances operation: AWS was not able to validate the provided access credentials
+2026-05-15 19:08:49,356 - ERROR - EBS scanning failed: An error occurred (AuthFailure) when calling the DescribeVolumes operation: AWS was not able to validate the provided access credentials
+2026-05-15 19:08:55,721 - ERROR - Elastic IP scanning failed: An error occurred (AuthFailure) when calling the DescribeAddresses operation: AWS was not able to validate the provided access credentials
+2026-05-15 19:08:55,786 - INFO - JSON report generated successfully: output/reports\audit_report.json
+2026-05-15 19:15:03,760 - ERROR - EC2 scanning failed: An error occurred (AuthFailure) when calling the DescribeInstances operation: AWS was not able to validate the provided access credentials
+2026-05-15 19:15:07,238 - ERROR - EBS scanning failed: An error occurred (AuthFailure) when calling the DescribeVolumes operation: AWS was not able to validate the provided access credentials
+2026-05-15 19:15:10,513 - ERROR - Elastic IP scanning failed: An error occurred (AuthFailure) when calling the DescribeAddresses operation: AWS was not able to validate the provided access credentials
+2026-05-15 19:16:26,756 - ERROR - EC2 scanning failed: An error occurred (AuthFailure) when calling the DescribeInstances operation: AWS was not able to validate the provided access credentials
+2026-05-15 19:16:30,212 - ERROR - EBS scanning failed: An error occurred (AuthFailure) when calling the DescribeVolumes operation: AWS was not able to validate the provided access credentials
+2026-05-15 19:16:33,923 - ERROR - Elastic IP scanning failed: An error occurred (AuthFailure) when calling the DescribeAddresses operation: AWS was not able to validate the provided access credentials
+2026-05-15 19:16:33,970 - INFO - JSON report generated successfully: output/reports\audit_report.json
+2026-05-15 19:18:59,482 - ERROR - EC2 scanning failed: An error occurred (AuthFailure) when calling the DescribeInstances operation: AWS was not able to validate the provided access credentials
+2026-05-15 19:19:03,739 - ERROR - EBS scanning failed: An error occurred (AuthFailure) when calling the DescribeVolumes operation: AWS was not able to validate the provided access credentials
+2026-05-15 19:19:07,227 - ERROR - Elastic IP scanning failed: An error occurred (AuthFailure) when calling the DescribeAddresses operation: AWS was not able to validate the provided access credentials
+2026-05-15 19:19:07,264 - INFO - JSON report generated successfully: output/reports\audit_report.json
+2026-05-15 19:24:02,526 - ERROR - EC2 scanning failed: An error occurred (AuthFailure) when calling the DescribeInstances operation: AWS was not able to validate the provided access credentials
+2026-05-15 19:24:06,365 - ERROR - EBS scanning failed: An error occurred (AuthFailure) when calling the DescribeVolumes operation: AWS was not able to validate the provided access credentials
+2026-05-15 19:24:10,113 - ERROR - Elastic IP scanning failed: An error occurred (AuthFailure) when calling the DescribeAddresses operation: AWS was not able to validate the provided access credentials
+2026-05-15 19:24:10,254 - WARNING - No EC2 data available for CSV report generation
+2026-05-15 19:27:58,204 - ERROR - EC2 scanning failed: An error occurred (AuthFailure) when calling the DescribeInstances operation: AWS was not able to validate the provided access credentials
+2026-05-15 19:28:02,008 - ERROR - EBS scanning failed: An error occurred (AuthFailure) when calling the DescribeVolumes operation: AWS was not able to validate the provided access credentials
+2026-05-15 19:28:05,790 - ERROR - Elastic IP scanning failed: An error occurred (AuthFailure) when calling the DescribeAddresses operation: AWS was not able to validate the provided access credentials
+2026-05-15 19:28:05,814 - WARNING - No EC2 data available for CSV report generation
+2026-05-15 19:31:29,161 - ERROR - EC2 scanning failed: An error occurred (AuthFailure) when calling the DescribeInstances operation: AWS was not able to validate the provided access credentials
+2026-05-15 19:31:32,940 - ERROR - EBS scanning failed: An error occurred (AuthFailure) when calling the DescribeVolumes operation: AWS was not able to validate the provided access credentials
+2026-05-15 19:31:36,316 - ERROR - Elastic IP scanning failed: An error occurred (AuthFailure) when calling the DescribeAddresses operation: AWS was not able to validate the provided access credentials
+2026-05-15 19:31:36,357 - WARNING - No EC2 data available for CSV report generation
+2026-05-15 19:33:32,631 - ERROR - EC2 scanning failed: An error occurred (AuthFailure) when calling the DescribeInstances operation: AWS was not able to validate the provided access credentials
+2026-05-15 19:33:36,274 - ERROR - EBS scanning failed: An error occurred (AuthFailure) when calling the DescribeVolumes operation: AWS was not able to validate the provided access credentials
+2026-05-15 19:33:39,606 - ERROR - Elastic IP scanning failed: An error occurred (AuthFailure) when calling the DescribeAddresses operation: AWS was not able to validate the provided access credentials
+2026-05-15 19:33:39,624 - WARNING - No EC2 data available for CSV report generation
+2026-05-15 19:36:35,043 - ERROR - EC2 Scan Failed: An error occurred (AuthFailure) when calling the DescribeInstances operation: AWS was not able to validate the provided access credentials
+2026-05-15 19:36:38,389 - ERROR - EBS scanning failed: An error occurred (AuthFailure) when calling the DescribeVolumes operation: AWS was not able to validate the provided access credentials
+2026-05-15 19:36:41,963 - ERROR - Elastic IP scanning failed: An error occurred (AuthFailure) when calling the DescribeAddresses operation: AWS was not able to validate the provided access credentials
+2026-05-15 19:36:41,992 - WARNING - No EC2 data available for CSV report generation
