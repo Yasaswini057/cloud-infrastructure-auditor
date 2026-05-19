@@ -3,6 +3,7 @@ from botocore.exceptions import BotoCoreError, ClientError
 
 from auth.aws_auth import create_aws_session
 from utils.logger import logger
+from utils.logger import logger
 
 def scan_ec2_instances():
     """
@@ -32,5 +33,9 @@ def scan_ec2_instances():
         return instances_data
 
     except (BotoCoreError, ClientError) as error:
-        logger.error(f"EC2 scanning failed: {str(error)}")
+
+        logger.error(f"EC2 Scan Failed: {str(error)}")
+
+        print(f"Error scanning EC2 instances: {str(error)}")
+
         return []

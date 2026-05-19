@@ -13,9 +13,10 @@ def generate_json_report(data, filename="audit_report.json"):
     os.makedirs(output_dir, exist_ok=True)
 
     filepath = os.path.join(output_dir, filename)
-
     report_data = {
         "generated_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+
+        "scan_status": "Completed",
 
         "summary": {
             "total_ec2_instances": len(data.get("ec2_instances", [])),

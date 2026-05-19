@@ -1,40 +1,30 @@
-from utils.logger import logger
-
-
 def scan_ebs_volumes():
     """
-    Scan unattached EBS volumes
+    Scan EBS volumes
     """
 
     try:
-        logger.info("Starting EBS volume scan...")
+        session = create_aws_session()
 
-        # Mock EBS data
-        # TODO: Replace with real Boto3 integration
+        ec2_client = session.client("ec2")
 
-        ebs_volumes = [
-            {
-                "VolumeId": "vol-001",
-                "Size": 100,
-                "State": "available",
-                "Region": "us-east-1",
-                "EstimatedSavings": "$12/month",
-                "Recommendation": "Delete unattached EBS volume"
-            },
-            {
-                "VolumeId": "vol-002",
-                "Size": 50,
-                "State": "available",
-                "Region": "ap-south-1",
-                "EstimatedSavings": "$6/month",
-                "Recommendation": "Remove unused storage"
+        response = ec2_client.describe_volumes()
+
+        volumes_data = []
+
+        for volume in response["Volumes"]:
+
+            volume_info = {
+                "VolumeId": volume.get("VolumeId"),
+                "State": volume.get("State")
             }
-        ]
 
-        logger.info(f"Found {len(ebs_volumes)} unattached EBS volumes")
+            volumes_data.append(volume_info)
 
-        return ebs_volumes
+        return volumes_data
 
-    except Exception as e:
-        logger.error(f"EBS Scanner Error: {str(e)}")
-        return []
+    except (BotoCoreError, ClientError) as error:
+
+        logger.error(f"EBS scanning failed: {str(error)}")
+
+    return []
