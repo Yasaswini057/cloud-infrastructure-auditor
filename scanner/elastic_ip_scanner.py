@@ -1,12 +1,6 @@
-from botocore.exceptions import BotoCoreError, ClientError
-
-from auth.aws_auth import create_aws_session
-from utils.logger import logger
-
-
 def scan_elastic_ips():
     """
-    Scan Elastic IPs from AWS
+    Scan Elastic IPs
     """
 
     try:
@@ -33,4 +27,4 @@ def scan_elastic_ips():
 
         logger.error(f"Elastic IP scanning failed: {str(error)}")
 
-        return []
+    return []
