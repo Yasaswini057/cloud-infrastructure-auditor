@@ -18,3 +18,11 @@
 2026-05-14 10:31:15,072 - INFO - JSON report generated successfully: output/reports\audit_report.json
 2026-05-14 10:33:44,042 - ERROR - EC2 scanning failed: An error occurred (AuthFailure) when calling the DescribeInstances operation: AWS was not able to validate the provided access credentials
 2026-05-14 10:33:44,058 - INFO - JSON report generated successfully: output/reports\audit_report.json
+2026-05-19 20:58:21,316 - ERROR - EC2 scanning failed: An error occurred (AuthFailure) when calling the DescribeInstances operation: AWS was not able to validate the provided access credentials
+2026-05-19 20:58:21,334 - INFO - JSON report generated successfully: output/reports\audit_report.json
+2026-05-19 21:05:07,600 - ERROR - EC2 scanning failed: An error occurred (AuthFailure) when calling the DescribeInstances operation: AWS was not able to validate the provided access credentials
+2026-05-19 21:05:07,603 - INFO - Starting EBS volume scan...
+2026-05-19 21:05:07,603 - INFO - Found 2 unattached EBS volumes
+2026-05-19 21:05:07,603 - INFO - Starting Elastic IP scan...
+2026-05-19 21:05:07,603 - INFO - Found 2 unused Elastic IPs
+2026-05-19 21:05:07,644 - INFO - JSON report generated successfully: output/reports\audit_report.json

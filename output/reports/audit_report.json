@@ -1,13 +1,45 @@
 {
-    "generated_at": "2026-05-14 10:33:44",
+    "generated_at": "2026-05-19 21:05:07",
     "summary": {
         "total_ec2_instances": 0,
-        "total_ebs_volumes": 0,
-        "total_elastic_ips": 0
+        "total_ebs_volumes": 2,
+        "total_elastic_ips": 2
     },
     "resources": {
         "ec2_instances": [],
-        "ebs_volumes": [],
-        "elastic_ips": []
+        "ebs_volumes": [
+            {
+                "VolumeId": "vol-001",
+                "Size": 100,
+                "State": "available",
+                "Region": "us-east-1",
+                "EstimatedSavings": "$12/month",
+                "Recommendation": "Delete unattached EBS volume"
+            },
+            {
+                "VolumeId": "vol-002",
+                "Size": 50,
+                "State": "available",
+                "Region": "ap-south-1",
+                "EstimatedSavings": "$6/month",
+                "Recommendation": "Remove unused storage"
+            }
+        ],
+        "elastic_ips": [
+            {
+                "PublicIp": "52.10.20.30",
+                "AllocationId": "eipalloc-001",
+                "Region": "us-east-1",
+                "EstimatedSavings": "$5/month",
+                "Recommendation": "Release unused Elastic IP"
+            },
+            {
+                "PublicIp": "18.60.10.40",
+                "AllocationId": "eipalloc-002",
+                "Region": "ap-south-1",
+                "EstimatedSavings": "$5/month",
+                "Recommendation": "Unused Elastic IP detected"
+            }
+        ]
     }
 }
