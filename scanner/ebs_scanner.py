@@ -1,6 +1,11 @@
+from auth.aws_auth import create_aws_session
+from botocore.exceptions import BotoCoreError, ClientError
+from utils.logger import logger
+
+
 def scan_ebs_volumes():
     """
-    Scan EBS volumes
+    Scan EBS volumes from AWS
     """
 
     try:
@@ -25,6 +30,12 @@ def scan_ebs_volumes():
 
     except (BotoCoreError, ClientError) as error:
 
-        logger.error(f"EBS scanning failed: {str(error)}")
+        logger.error(
+            f"EBS scanning failed: {str(error)}"
+        )
 
-    return []
+        print(
+            f"Error scanning EBS volumes: {str(error)}"
+        )
+
+        return []

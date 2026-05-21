@@ -1,6 +1,11 @@
+from auth.aws_auth import create_aws_session
+from botocore.exceptions import BotoCoreError, ClientError
+from utils.logger import logger
+
+
 def scan_elastic_ips():
     """
-    Scan Elastic IPs
+    Scan Elastic IPs from AWS
     """
 
     try:
@@ -16,7 +21,10 @@ def scan_elastic_ips():
 
             ip_info = {
                 "PublicIp": address.get("PublicIp"),
-                "AllocationId": address.get("AllocationId", "N/A")
+                "AllocationId": address.get(
+                    "AllocationId",
+                    "-"
+                )
             }
 
             elastic_ip_data.append(ip_info)
@@ -25,6 +33,12 @@ def scan_elastic_ips():
 
     except (BotoCoreError, ClientError) as error:
 
-        logger.error(f"Elastic IP scanning failed: {str(error)}")
+        logger.error(
+            f"Elastic IP scanning failed: {str(error)}"
+        )
 
-    return []
+        print(
+            f"Error scanning Elastic IPs: {str(error)}"
+        )
+
+        return []
