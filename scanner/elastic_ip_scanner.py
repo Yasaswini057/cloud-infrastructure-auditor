@@ -29,7 +29,10 @@ def scan_elastic_ips():
 
                 elastic_ip_info = {
                     "PublicIp": address.get("PublicIp"),
-                    "AllocationId": address.get("AllocationId"),
+                    "AllocationId": address.get(
+                        "AllocationId",
+                        "-"
+                    ),
                     "Region": region
                 }
 
@@ -39,6 +42,8 @@ def scan_elastic_ips():
 
     except (BotoCoreError, ClientError) as error:
 
-        logger.error(f"Elastic IP scanning failed: {str(error)}")
+        logger.error(
+            f"Elastic IP scanning failed: {str(error)}"
+        )
 
-    return []
+        return []

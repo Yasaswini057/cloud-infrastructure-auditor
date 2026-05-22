@@ -39,6 +39,8 @@ def scan_ebs_volumes():
 
     except (BotoCoreError, ClientError) as error:
 
-        logger.error(f"EBS scanning failed: {str(error)}")
+        logger.error(
+            f"EBS scanning failed: {str(error)}"
+        )
 
-    return []
+        return []
