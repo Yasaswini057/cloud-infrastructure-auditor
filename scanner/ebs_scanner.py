@@ -1,25 +1,39 @@
+from botocore.exceptions import BotoCoreError, ClientError
+
+from auth.aws_auth import create_aws_session
+from utils.logger import logger
+from utils.aws_regions import get_all_regions
+
+
 def scan_ebs_volumes():
     """
-    Scan EBS volumes
+    Scan EBS volumes across multiple AWS regions
     """
 
     try:
         session = create_aws_session()
 
-        ec2_client = session.client("ec2")
-
-        response = ec2_client.describe_volumes()
+        regions = get_all_regions()
 
         volumes_data = []
 
-        for volume in response["Volumes"]:
+        for region in regions:
 
-            volume_info = {
-                "VolumeId": volume.get("VolumeId"),
-                "State": volume.get("State")
-            }
+            logger.info(f"Scanning EBS volumes in region: {region}")
 
-            volumes_data.append(volume_info)
+            ec2_client = session.client("ec2", region_name=region)
+
+            response = ec2_client.describe_volumes()
+
+            for volume in response["Volumes"]:
+
+                volume_info = {
+                    "VolumeId": volume.get("VolumeId"),
+                    "State": volume.get("State"),
+                    "Region": region
+                }
+
+                volumes_data.append(volume_info)
 
         return volumes_data
 

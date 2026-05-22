@@ -1,0 +1,11 @@
+2026-05-22 19:57:48,376 - INFO - Found credentials in environment variables.
+2026-05-22 19:57:48,908 - INFO - Scanning EC2 instances in region: us-east-1
+2026-05-22 19:57:50,593 - ERROR - EC2 scanning failed: An error occurred (AuthFailure) when calling the DescribeInstances operation: AWS was not able to validate the provided access credentials
+2026-05-22 20:02:40,437 - INFO - Found credentials in environment variables.
+2026-05-22 20:02:40,661 - INFO - Scanning EC2 instances in region: us-east-1
+2026-05-22 20:02:42,241 - ERROR - EC2 scanning failed: An error occurred (AuthFailure) when calling the DescribeInstances operation: AWS was not able to validate the provided access credentials
+2026-05-22 20:02:42,261 - INFO - Scanning EBS volumes in region: us-east-1
+2026-05-22 20:02:43,802 - ERROR - EBS scanning failed: An error occurred (AuthFailure) when calling the DescribeVolumes operation: AWS was not able to validate the provided access credentials
+2026-05-22 20:02:43,820 - INFO - Scanning Elastic IPs in region: us-east-1
+2026-05-22 20:02:45,410 - ERROR - Elastic IP scanning failed: An error occurred (AuthFailure) when calling the DescribeAddresses operation: AWS was not able to validate the provided access credentials
+2026-05-22 20:02:45,425 - WARNING - No EC2 data available for CSV report generation
