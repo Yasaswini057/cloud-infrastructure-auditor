@@ -26,6 +26,8 @@ def scan_elastic_ips():
             response = ec2_client.describe_addresses()
 
             for address in response["Addresses"]:
+                if "InstanceId" in address:
+                    continue
 
                 elastic_ip_info = {
                     "PublicIp": address.get("PublicIp"),

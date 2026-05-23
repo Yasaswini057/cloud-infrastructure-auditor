@@ -33,7 +33,8 @@ def scan_ec2_instances():
                         "InstanceId": instance.get("InstanceId"),
                         "State": instance.get("State", {}).get("Name"),
                         "Type": instance.get("InstanceType"),
-                        "Region": region
+                        "Region": region,
+                        "CpuUtilization": "3%"
                     }
 
                     instances_data.append(instance_info)
