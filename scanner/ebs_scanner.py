@@ -26,6 +26,8 @@ def scan_ebs_volumes():
             response = ec2_client.describe_volumes()
 
             for volume in response["Volumes"]:
+                if volume.get("State") != "available":
+                    continue
 
                 volume_info = {
                     "VolumeId": volume.get("VolumeId"),
