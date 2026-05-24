@@ -38,6 +38,7 @@ def scan_ec2_instances():
                     }
 
                     instances_data.append(instance_info)
+        print(f"EC2 Instances Scanned: {len(instances_data)}")
 
         return instances_data
 

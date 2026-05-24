@@ -39,7 +39,7 @@ def scan_elastic_ips():
                 }
 
                 elastic_ips_data.append(elastic_ip_info)
-
+        print(f"Elastic IPs Scanned: {len(elastic_ips_data)}")
         return elastic_ips_data
 
     except (BotoCoreError, ClientError) as error:

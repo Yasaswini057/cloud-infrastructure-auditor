@@ -36,6 +36,7 @@ def scan_ebs_volumes():
                 }
 
                 volumes_data.append(volume_info)
+        print(f"EBS Volumes Scanned: {len(volumes_data)}")
 
         return volumes_data
 
