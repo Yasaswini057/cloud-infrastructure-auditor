@@ -1,29 +1,45 @@
 from auth.aws_auth import create_aws_session
 from botocore.exceptions import ClientError, BotoCoreError
+import os
 
 
 def validate_credentials():
+    """
+    Validate AWS credentials
+    """
 
     try:
 
         session = create_aws_session()
 
-        sts_client = session.client("sts")
+        sts = session.client("sts")
 
-        response = sts_client.get_caller_identity()
+        identity = sts.get_caller_identity()
 
-        print(response)
+        print("AWS Authentication Successful!")
+
+        print(
+            f"AWS Account ID: {identity['Account']}"
+        )
+
+        print(
+            f"Region: {os.getenv('AWS_REGION')}"
+        )
 
         return True
 
     except (ClientError, BotoCoreError) as e:
 
-        print("AWS Error:", e)
+        print(
+            f"AWS Error: {str(e)}"
+        )
 
         return False
 
     except Exception as e:
 
-        print("General Error:", e)
+        print(
+            f"General Error: {str(e)}"
+        )
 
         return False
