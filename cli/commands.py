@@ -7,7 +7,9 @@ from rich.table import Table
 from rich.console import Console
 
 from cli.banner import show_banner
+
 from auth.credentials_validator import validate_credentials
+
 from cli.cli_utils import (
     success_message,
     error_message,
@@ -29,7 +31,12 @@ from optimizer.recommendations import (
     generate_recommendations
 )
 
+from optimizer.cost_calculator import (
+    estimate_ec2_cost
+)
+
 app = typer.Typer()
+
 console = Console()
 
 
@@ -38,6 +45,7 @@ def main():
     """
     Cloud Infrastructure Auditor CLI
     """
+
     show_banner()
 
 
@@ -63,11 +71,9 @@ def auth():
             "Please verify Access Key, Secret Key and AWS Region."
         )
 
+
 @app.command()
 def version():
-    """
-    Show project version
-    """
 
     typer.echo(
         "Project : Cloud Infrastructure Auditor"
@@ -81,33 +87,29 @@ def version():
         "Module : CLI + Authentication"
     )
 
+
 @app.command()
 def help_command():
-    """
-    Show available commands
-    """
 
     typer.echo(
         "Available Commands:"
     )
 
     typer.echo(
-        "auth     -> Validate AWS credentials"
+        "auth -> Validate AWS credentials"
     )
 
     typer.echo(
-        "scan     -> Scan AWS resources"
+        "scan -> Scan AWS resources"
     )
 
     typer.echo(
-        "version  -> Show project version"
+        "version -> Show project version"
     )
+
 
 @app.command()
 def scan():
-    """
-    Scan AWS resources
-    """
 
     start_time = datetime.now()
 
@@ -150,6 +152,10 @@ def scan():
         ebs_data
     )
 
+    estimated_cost = estimate_ec2_cost(
+        ec2_data
+    )
+
     resources_data = {
         "ec2": ec2_data,
         "ebs": ebs_data,
@@ -166,8 +172,6 @@ def scan():
         "elastic_ips": elastic_ip_data,
         "recommendations": recommendations
     }
-
-    # EC2 TABLE
 
     table = Table(
         title="EC2 Scan Results"
@@ -208,8 +212,6 @@ def scan():
 
     console.print(table)
 
-    # EBS TABLE
-
     ebs_table = Table(
         title="EBS Scan Results"
     )
@@ -240,22 +242,18 @@ def scan():
             "-"
         )
 
-    console.print(
-        ebs_table
-    )
+    console.print(ebs_table)
 
-    # ELASTIC IP TABLE
-
-    elastic_ip_table = Table(
+    elastic_table = Table(
         title="Elastic IP Scan Results"
     )
 
-    elastic_ip_table.add_column(
+    elastic_table.add_column(
         "Public IP",
         style="cyan"
     )
 
-    elastic_ip_table.add_column(
+    elastic_table.add_column(
         "Allocation ID",
         style="yellow"
     )
@@ -264,21 +262,19 @@ def scan():
 
         for ip in elastic_ip_data:
 
-            elastic_ip_table.add_row(
+            elastic_table.add_row(
                 ip["PublicIp"],
                 ip["AllocationId"]
             )
 
     else:
 
-        elastic_ip_table.add_row(
+        elastic_table.add_row(
             "No Elastic IPs Found",
             "-"
         )
 
-    console.print(
-        elastic_ip_table
-    )
+    console.print(elastic_table)
 
     typer.echo(
         "\nInfrastructure Summary:"
@@ -296,12 +292,6 @@ def scan():
         f"Total Elastic IPs: {len(elastic_ip_data)}"
     )
 
-    if not ec2_data:
-
-        error_message(
-            "No EC2 instances found or AWS credentials could not be validated."
-        )
-
     typer.echo(
         "\nOptimization Summary:"
     )
@@ -315,13 +305,29 @@ def scan():
     )
 
     typer.echo(
+        "\nEstimated Monthly Cost:"
+    )
+
+    typer.echo(
+        f"EC2 Cost: ${estimated_cost}/month"
+    )
+
+    typer.echo(
         "\nRecommendations:"
     )
 
-    for recommendation in recommendations:
+    if recommendations:
+
+        for recommendation in recommendations:
+
+            typer.echo(
+                f"- {recommendation}"
+            )
+
+    else:
 
         typer.echo(
-            f"- {recommendation}"
+            "- No optimization recommendations found."
         )
 
     generate_json_report(
@@ -336,21 +342,51 @@ def scan():
         "Report saved in output/reports/"
     )
 
-    end_time = datetime.now()
-
-    duration = end_time - start_time
+    duration = (
+        datetime.now() - start_time
+    )
 
     console.print(
-    f"\n[bold yellow]Scan Duration: {duration}[/bold yellow]"
-)
-console.print(
-    "\n[bold green]Scan Status : Completed[/bold green]"
-)
+        f"\n[bold yellow]Scan Duration: {duration}[/bold yellow]"
+    )
 
-console.print(
-    "[bold cyan]Resources Checked : EC2, EBS, Elastic IP[/bold cyan]"
-)
+    console.print(
+        "\n[bold green]Scan Status : Completed[/bold green]"
+    )
 
-success_message(
-    "\nCloud Infrastructure Audit Completed!"
-)
+    console.print(
+        "[bold cyan]Resources Checked : EC2, EBS, Elastic IP[/bold cyan]"
+    )
+
+    console.print(
+        "\n========== FINAL AUDIT REPORT =========="
+    )
+
+    console.print(
+        f"EC2 Instances : {len(ec2_data)}"
+    )
+
+    console.print(
+        f"EBS Volumes : {len(ebs_data)}"
+    )
+
+    console.print(
+        f"Elastic IPs : {len(elastic_ip_data)}"
+    )
+
+    console.print(
+        f"Estimated Cost : ${estimated_cost}/month"
+    )
+
+    console.print(
+        "Status : Audit Completed"
+    )
+
+    success_message(
+        "\nCloud Infrastructure Audit Completed!"
+    )
+
+
+if __name__ == "__main__":
+
+    app()
