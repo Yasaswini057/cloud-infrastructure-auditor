@@ -1,27 +1,41 @@
 import boto3
-from datetime import datetime, timedelta
+from datetime import datetime, timezone
 
-cloudwatch = boto3.client('cloudwatch')
 
-def get_cpu_avg(instance_id):
-    end = datetime.utcnow()
-    start = end - timedelta(days=14)
+def get_cpu_avg(instance_id, region="ap-south-1"):
+    """
+    Get average CPU utilization for last 14 days from CloudWatch
+    """
 
-    response = cloudwatch.get_metric_statistics(
-        Namespace='AWS/EC2',
-        MetricName='CPUUtilization',
-        Dimensions=[
-            {'Name': 'InstanceId', 'Value': instance_id}
-        ],
-        StartTime=start,
-        EndTime=end,
-        Period=86400,
-        Statistics=['Average']
-    )
+    try:
+        cloudwatch = boto3.client("cloudwatch", region_name=region)
 
-    points = response.get("Datapoints", [])
+        end_time = datetime.now(timezone.utc)
+        start_time = end_time - timezone(days=14)
 
-    if not points:
+        response = cloudwatch.get_metric_statistics(
+            Namespace="AWS/EC2",
+            MetricName="CPUUtilization",
+            Dimensions=[
+                {
+                    "Name": "InstanceId",
+                    "Value": instance_id
+                }
+            ],
+            StartTime=start_time,
+            EndTime=end_time,
+            Period=86400,  # daily aggregation
+            Statistics=["Average"]
+        )
+
+        datapoints = response.get("Datapoints", [])
+
+        if not datapoints:
+            return None
+
+        avg_cpu = sum(dp["Average"] for dp in datapoints) / len(datapoints)
+        return round(avg_cpu, 4)
+
+    except Exception as e:
+        print(f"[CloudWatch Error] {str(e)}")
         return None
-
-    return sum(p["Average"] for p in points) / len(points)

@@ -1,48 +1,49 @@
-import boto3
-
-ec2 = boto3.client("ec2")
-
-
-def terminate_instance(instance_id, dry_run=True):
-    if dry_run:
-        print(f"[DRY RUN] Would terminate instance: {instance_id}")
-        return
-
-    confirm = input(f"Are you sure you want to terminate {instance_id}? (yes/no): ")
-
-    if confirm.lower() != "yes":
-        print("Cancelled termination.")
-        return
-
-    ec2.terminate_instances(InstanceIds=[instance_id])
-    print(f"[+] Terminated instance: {instance_id}")
+from botocore.exceptions import BotoCoreError, ClientError
+from auth.aws_auth import create_aws_session
+from utils.logger import logger
 
 
-def release_eip(allocation_id, dry_run=True):
-    if dry_run:
-        print(f"[DRY RUN] Would release EIP: {allocation_id}")
-        return
+def terminate_instance(instance_id: str, region: str = "ap-south-1", dry_run: bool = True):
+    """
+    Safely terminate EC2 instance with dry-run support
+    """
 
-    confirm = input(f"Release Elastic IP {allocation_id}? (yes/no): ")
+    try:
+        session = create_aws_session()
+        ec2 = session.client("ec2", region_name=region)
 
-    if confirm.lower() != "yes":
-        print("Cancelled.")
-        return
+        if dry_run:
+            print(f"[DRY RUN] Would terminate instance: {instance_id}")
+            return {
+                "InstanceId": instance_id,
+                "Action": "TERMINATE",
+                "DryRun": True,
+                "Status": "SIMULATED"
+            }
 
-    ec2.release_address(AllocationId=allocation_id)
-    print(f"[+] Released EIP: {allocation_id}")
+        
+        confirm = input(f"⚠ Are you sure you want to TERMINATE {instance_id}? (yes/no): ")
 
+        if confirm.lower() != "yes":
+            print("Termination cancelled by user.")
+            return {
+                "InstanceId": instance_id,
+                "Action": "CANCELLED"
+            }
 
-def delete_volume(volume_id, dry_run=True):
-    if dry_run:
-        print(f"[DRY RUN] Would delete volume: {volume_id}")
-        return
+        response = ec2.terminate_instances(InstanceIds=[instance_id])
 
-    confirm = input(f"Delete volume {volume_id}? (yes/no): ")
+        print(f" Instance terminated: {instance_id}")
 
-    if confirm.lower() != "yes":
-        print("Cancelled.")
-        return
+        return {
+            "InstanceId": instance_id,
+            "Action": "TERMINATED",
+            "Response": response
+        }
 
-    ec2.delete_volume(VolumeId=volume_id)
-    print(f"[+] Deleted volume: {volume_id}")
+    except (BotoCoreError, ClientError) as error:
+        logger.error(f"Cleanup failed: {str(error)}")
+        return {
+            "InstanceId": instance_id,
+            "Error": str(error)
+        }

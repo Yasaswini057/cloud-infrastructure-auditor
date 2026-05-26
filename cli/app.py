@@ -50,18 +50,24 @@ def report(format: str = "json"):
 
 
 # ----------------------------
-# CLEANUP COMMAND
+# CLEANUP COMMAND (UPDATED)
 # ----------------------------
 @app.command()
-def cleanup(instance_id: str, dry_run: bool = True):
+def cleanup(instance_id: str, dry_run: bool = True, execute: bool = False):
     """
-    Cleanup EC2 instance safely
+    Cleanup EC2 instance safely (dry-run or execute mode)
     """
     from aws.cleanup import terminate_instance
 
+    # if execute flag is used → force real execution
+    if execute:
+        dry_run = False
+
     print(f"[yellow]Cleanup mode (dry_run={dry_run})[/yellow]")
 
-    terminate_instance(instance_id, dry_run=dry_run)
+    result = terminate_instance(instance_id, dry_run=dry_run)
+
+    print(result)
 
 
 # ----------------------------

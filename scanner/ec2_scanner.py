@@ -3,14 +3,12 @@ from botocore.exceptions import BotoCoreError, ClientError
 from auth.aws_auth import create_aws_session
 from utils.logger import logger
 from utils.aws_regions import get_all_regions
-
-
 from aws.cloudwatch_utils import get_cpu_avg
 
 
 def scan_ec2_instances():
     """
-    Scan EC2 instances across multiple AWS regions with CPU analysis
+    Scan EC2 instances across multiple AWS regions with CloudWatch CPU analysis
     """
 
     try:
@@ -33,8 +31,9 @@ def scan_ec2_instances():
                     instance_id = instance.get("InstanceId")
 
                     
-                    cpu = get_cpu_avg(instance_id)
+                    cpu = get_cpu_avg(instance_id, region)
 
+                    
                     if cpu is None:
                         status = "NO DATA"
                     elif cpu < 5:
@@ -47,9 +46,12 @@ def scan_ec2_instances():
                         "State": instance.get("State", {}).get("Name"),
                         "Type": instance.get("InstanceType"),
                         "Region": region,
+
+                        
                         "CpuUtilization": cpu,
                         "AnalysisWindow": "14 days",
-                        "MetricSource": "Aws CloudWatch (Average CPU)",
+                        "MetricSource": "AWS CloudWatch (Average CPU)",
+
                         "Status": status
                     }
 
