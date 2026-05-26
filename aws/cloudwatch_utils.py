@@ -11,12 +11,11 @@ def get_cpu_avg(instance_id: str, region: str = "ap-south-1"):
     Fetch average CPU utilization over last 14 days for an EC2 instance
     using AWS CloudWatch.
     """
-
     try:
         session = create_aws_session()
         cloudwatch = session.client("cloudwatch", region_name=region)
 
-        # 14-day analysis window (fix for timezone bug)
+        # 14-day analysis window
         end_time = datetime.now(timezone.utc)
         start_time = end_time - timedelta(days=14)
 
