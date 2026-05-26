@@ -1,73 +1,50 @@
-import boto3
 from datetime import datetime, timezone, timedelta
+import boto3
+from botocore.exceptions import BotoCoreError, ClientError
+
+from auth.aws_auth import create_aws_session
+from utils.logger import logger
 
 
-def get_cpu_avg(instance_id, region="ap-south-1"):
+def get_cpu_avg(instance_id: str, region: str = "ap-south-1"):
     """
-    Get average CPU utilization for last 14 days from CloudWatch
+    Fetch average CPU utilization over last 14 days for an EC2 instance
+    using AWS CloudWatch.
     """
 
     try:
+        session = create_aws_session()
+        cloudwatch = session.client("cloudwatch", region_name=region)
 
-        cloudwatch = boto3.client(
-            "cloudwatch",
-            region_name=region
-        )
-
-        end_time = datetime.now(
-            timezone.utc
-        )
-
-        start_time = end_time - timedelta(
-            days=14
-        )
+        # 14-day analysis window (fix for timezone bug)
+        end_time = datetime.now(timezone.utc)
+        start_time = end_time - timedelta(days=14)
 
         response = cloudwatch.get_metric_statistics(
-
             Namespace="AWS/EC2",
-
             MetricName="CPUUtilization",
-
             Dimensions=[
                 {
                     "Name": "InstanceId",
                     "Value": instance_id
                 }
             ],
-
             StartTime=start_time,
-
             EndTime=end_time,
-
-            Period=86400,
-
+            Period=86400,  # daily average
             Statistics=["Average"]
-
         )
 
-        datapoints = response.get(
-            "Datapoints",
-            []
-        )
+        datapoints = response.get("Datapoints", [])
 
         if not datapoints:
-
             return None
 
-        avg_cpu = sum(
-            dp["Average"]
-            for dp in datapoints
-        ) / len(datapoints)
+        # Calculate average CPU over period
+        avg_cpu = sum(dp["Average"] for dp in datapoints) / len(datapoints)
 
-        return round(
-            avg_cpu,
-            4
-        )
+        return round(avg_cpu, 4)
 
-    except Exception as e:
-
-        print(
-            f"[CloudWatch Error] {str(e)}"
-        )
-
+    except (BotoCoreError, ClientError) as error:
+        logger.error(f"[CloudWatch Error] {str(error)}")
         return None

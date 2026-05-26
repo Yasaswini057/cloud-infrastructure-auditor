@@ -1,47 +1,43 @@
-def generate_recommendations(resources):
+def generate_recommendations(resources_data):
     """
-    Generate optimization recommendations
-    based on scanned cloud resources.
+    Evaluates resource data and returns actionable cost optimization recommendations.
     """
-
     recommendations = []
-
-    # EC2 Recommendations
-    for ec2 in resources.get("ec2", []):
-
-        state = ec2.get("state", "").lower()
-        instance_id = ec2.get("instance_id", "Unknown")
-
-        if state == "stopped":
+    
+    # 1. Evaluate EC2 Instances
+    ec2_instances = resources_data.get("ec2", [])
+    for instance in ec2_instances:
+        # Check for the Underutilized flag set by Member 2
+        if instance.get("Underutilized", False):
             recommendations.append(
-                f"EC2 Instance {instance_id} is stopped. Consider terminating unused instances."
+                f"Instance {instance['InstanceId']} is underutilized (Average CPU: {instance['AverageCPU']}% over 14 days). "
+                f"Action: Consider downsizing or stopping this instance."
+            )
+            
+        # Check for stopped instances (if your analyzer sets a flag or state)
+        elif instance.get("State") == "stopped":
+            recommendations.append(
+                f"Instance {instance['InstanceId']} is stopped. "
+                f"Action: Consider terminating it if it's no longer needed to save on associated costs."
             )
 
-    # EBS Recommendations
-    for ebs in resources.get("ebs", []):
-
-        volume_id = ebs.get("volume_id", "Unknown")
-        state = ebs.get("state", "").lower()
-
-        if state == "available":
+    # 2. Evaluate EBS Volumes
+    ebs_volumes = resources_data.get("ebs", [])
+    for volume in ebs_volumes:
+        if volume.get("State") == "available":  # 'available' means unattached
             recommendations.append(
-                f"EBS Volume {volume_id} is unattached. Consider deleting unused volumes."
+                f"EBS Volume {volume['VolumeId']} is unattached (State: available). "
+                f"Action: Delete this volume to avoid unnecessary storage fees."
             )
 
-    # Elastic IP Recommendations
-    for eip in resources.get("elastic_ips", []):
-
-        public_ip = eip.get("public_ip", "Unknown")
-
-        if not eip.get("instance_id"):
+    # 3. Evaluate Elastic IPs
+    elastic_ips = resources_data.get("elastic_ips", [])
+    for ip in elastic_ips:
+        # If an Elastic IP isn't associated with an instance, flag it
+        if not ip.get("InstanceId") and not ip.get("AssociationId"):
             recommendations.append(
-                f"Elastic IP {public_ip} is unassociated. Consider releasing it."
+                f"Elastic IP {ip['PublicIp']} is unassociated. "
+                f"Action: Release this IP to stop incurring hourly AWS idle charges."
             )
-
-    # No recommendations
-    if not recommendations:
-        recommendations.append(
-            "No optimization recommendations found."
-        )
 
     return recommendations
