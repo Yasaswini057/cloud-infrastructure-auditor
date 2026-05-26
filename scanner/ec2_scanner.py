@@ -48,6 +48,8 @@ def scan_ec2_instances():
                         "Type": instance.get("InstanceType"),
                         "Region": region,
                         "CpuUtilization": cpu,
+                        "AnalysisWindow": "14 days",
+                        "MetricSource": "Aws CloudWatch (Average CPU)",
                         "Status": status
                     }
 

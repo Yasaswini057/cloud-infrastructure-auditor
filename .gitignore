@@ -1,6 +1,23 @@
+# Environment
 .env
-output/
-__pycache__/
-.vscode/
 venv/
+
+# Cache
+__pycache__/
 *.pyc
+
+# IDE
+.vscode/
+
+# Logs & outputs
+output/
+*.log
+
+# Reports (generated files)
+*.csv
+*.yaml
+
+# Build artifacts
+build/
+dist/
+*.spec
