@@ -1,39 +1,28 @@
-def estimate_ec2_cost(ec2_data):
+def calculate_total_cost(ec2_data):
     """
-    Estimate EC2 monthly cost
+    Calculate total monthly EC2 cost
     """
 
-    total_cost = 0
-
-    instance_prices = {
-        "t3.micro": 8.47,
-        "t2.micro": 8.47,
-        "t3.small": 16.79
-    }
+    cost = 0.0
 
     for instance in ec2_data:
 
-        instance_type = instance.get(
-            "Type",
-            ""
-        )
+        if instance["State"] == "running":
+            cost += 8.47
 
-        total_cost += instance_prices.get(
-            instance_type,
-            0
-        )
-
-    return round(
-        total_cost,
-        2
-    )
+    return round(cost, 2)
 
 
-def calculate_total_cost(ec2_data):
+def calculate_potential_savings(ec2_data):
     """
-    Wrapper function for analyzer compatibility
+    Calculate savings from underutilized EC2 instances
     """
 
-    return estimate_ec2_cost(
-        ec2_data
-    )
+    savings = 0.0
+
+    for instance in ec2_data:
+
+        if instance.get("Underutilized", False):
+            savings += 8.47
+
+    return round(savings, 2)

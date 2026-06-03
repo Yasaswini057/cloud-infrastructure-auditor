@@ -20,6 +20,7 @@ from scanner.elastic_ip_scanner import scan_elastic_ips
 
 from reports.json_report import generate_json_report
 from reports.csv_report import generate_csv_report
+from reports.yaml_report import generate_yaml_report
 
 from optimizer.analyzer import (
     analyze_ec2_instances,
@@ -28,6 +29,11 @@ from optimizer.analyzer import (
 
 from optimizer.recommendations import (
     generate_recommendations
+)
+
+from optimizer.cost_calculator import (
+    calculate_total_cost,
+    calculate_potential_savings
 )
 
 
@@ -164,7 +170,18 @@ def scan():
     recommendations = generate_recommendations(
         resources_data
     )
+    monthly_cost = calculate_total_cost(
+    ec2_data
+    )
 
+    potential_savings = calculate_potential_savings(
+    ec2_data
+   )
+
+    annual_savings = round(
+    potential_savings * 12,
+    2
+   )
     infrastructure_data = {
         "ec2_instances": ec2_data,
         "ebs_volumes": ebs_data,
@@ -304,7 +321,25 @@ def scan():
     typer.echo(
         f"Unused EBS Volumes: {len(unused_volumes)}"
     )
+    typer.echo(
+    "\nEstimated Monthly Cost:"
+    )
 
+    typer.echo(
+    f"EC2 Cost: ${monthly_cost}/month"
+    )
+
+    typer.echo(
+    "\nPotential Savings:"
+    )
+
+    typer.echo(
+    f"Monthly Savings: ${potential_savings}"
+    )
+
+    typer.echo(
+    f"Annual Savings: ${annual_savings}"
+    )
     typer.echo(
         "\nRecommendations:"
     )
@@ -317,6 +352,9 @@ def scan():
         infrastructure_data
     )
     generate_csv_report(
+    infrastructure_data
+    )
+    generate_yaml_report(
     infrastructure_data
     )
 
