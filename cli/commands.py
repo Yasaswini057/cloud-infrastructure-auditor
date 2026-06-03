@@ -19,6 +19,7 @@ from scanner.ebs_scanner import scan_ebs_volumes
 from scanner.elastic_ip_scanner import scan_elastic_ips
 
 from reports.json_report import generate_json_report
+from reports.csv_report import generate_csv_report
 
 from optimizer.analyzer import (
     analyze_ec2_instances,
@@ -28,6 +29,9 @@ from optimizer.analyzer import (
 from optimizer.recommendations import (
     generate_recommendations
 )
+
+
+from aws.cleanup import terminate_instance
 
 app = typer.Typer()
 console = Console()
@@ -74,25 +78,42 @@ def version():
         "Module : CLI + Authentication"
     )
 
-
 @app.command()
 def help_command():
     """
     Show available commands
     """
-    typer.echo(
-        "Available Commands:"
-    )
-    typer.echo(
-        "auth     -> Validate AWS credentials"
-    )
-    typer.echo(
-        "scan     -> Scan AWS resources"
-    )
-    typer.echo(
-        "version  -> Show project version"
+
+    typer.echo("\n========== Cloud Infrastructure Auditor ==========\n")
+
+    typer.echo("auth")
+    typer.echo("   Validate AWS credentials")
+
+    typer.echo("\nscan")
+    typer.echo("   Scan AWS resources and generate report")
+
+    typer.echo("\ncleanup <instance_id>")
+    typer.echo("   Simulate EC2 instance cleanup (Dry Run)")
+
+    typer.echo("\nversion")
+    typer.echo("   Show project version")
+
+    typer.echo("\nhelp-command")
+    typer.echo("   Show available commands")
+
+    typer.echo("\n==================================================")
+
+@app.command()
+def cleanup(
+    instance_id: str,
+    dry_run: bool = True
+):
+    result = terminate_instance(
+        instance_id=instance_id,
+        dry_run=dry_run
     )
 
+    print(result)
 
 @app.command()
 def scan():
@@ -295,9 +316,15 @@ def scan():
     generate_json_report(
         infrastructure_data
     )
+    generate_csv_report(
+    infrastructure_data
+    )
 
     success_message(
         "\nJSON Report Generated Successfully!"
+    )
+    success_message(
+    "CSV Report Generated Successfully!"
     )
     info_message(
         "Report saved in output/reports/"

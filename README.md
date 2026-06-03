@@ -178,3 +178,52 @@ output/reports/
 # Project Status
 
 Project implementation completed successfully with AWS scanning, optimization analysis, reporting, testing, and CLI workflow integration.
+
+# Cloud Infrastructure Auditor
+
+AWS Cost Optimization CLI Tool
+
+## Features
+
+* AWS Authentication
+* EC2 Instance Scanner
+* EBS Volume Scanner
+* Elastic IP Scanner
+* CPU Utilization Analysis
+* Underutilized EC2 Detection
+* Cost Optimization Recommendations
+* Cleanup Dry Run
+* JSON Report Export
+* Interactive CLI using Typer and Rich
+
+## Commands
+
+Validate AWS Credentials
+
+python main.py auth
+
+Scan AWS Infrastructure
+
+python main.py scan
+
+Cleanup EC2 Instance (Dry Run)
+
+python main.py cleanup <instance_id>
+
+Show Version
+
+python main.py version
+
+Show Help
+
+python main.py help-command
+
+## Output
+
+* EC2 Scan Results
+* EBS Scan Results
+* Elastic IP Scan Results
+* Infrastructure Summary
+* Optimization Summary
+* Cost Estimation
+* JSON Report
