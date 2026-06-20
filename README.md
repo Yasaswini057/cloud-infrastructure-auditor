@@ -228,3 +228,4 @@ python main.py help-command
 * Cost Estimation
 * JSON Report
 * Updated project documentation
+* Rectify Errors
