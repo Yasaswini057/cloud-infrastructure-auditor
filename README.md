@@ -227,4 +227,6 @@ python main.py help-command
 * Optimization Summary
 * Cost Estimation
 * JSON Report
+* CSV Reports
+* YAML Reports
 * Updated project documentation
