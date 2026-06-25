@@ -22,6 +22,7 @@ from reports.json_report import generate_json_report
 from reports.csv_report import generate_csv_report
 from reports.yaml_report import generate_yaml_report
 
+
 from optimizer.analyzer import (
     analyze_ec2_instances,
     analyze_ebs_volumes
@@ -127,6 +128,7 @@ def scan():
     Scan AWS resources
     """
     start_time = datetime.now()
+    current_time = datetime.now()
 
     resources = [
         "EC2 Instances",
@@ -370,16 +372,25 @@ def scan():
 
     end_time = datetime.now()
     duration = end_time - start_time
+    console.print(
+        f"\n[bold yellow]Scan Date : {current_time.strftime('%d-%m-%Y')}[/bold yellow]"
+    )
 
     console.print(
-        f"\n[bold yellow]Scan Duration: {duration}[/bold yellow]"
+        f"[bold yellow]Scan Time : {current_time.strftime('%H:%M:%S')}[/bold yellow]"
     )
+
+    console.print(
+        f"[bold yellow]Scan Duration : {duration}[/bold yellow]"
+    )
+
     console.print(
         "\n[bold green]Scan Status : Completed[/bold green]"
     )
+
     console.print(
         "[bold cyan]Resources Checked : EC2, EBS, Elastic IP[/bold cyan]"
     )
     success_message(
-        "\nCloud Infrastructure Audit Completed!"
+       "\nCloud Infrastructure Audit Completed!"
     )
