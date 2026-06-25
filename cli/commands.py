@@ -79,10 +79,13 @@ def version():
         "Project : Cloud Infrastructure Auditor"
     )
     typer.echo(
-        "Version : v1.0"
+    "Version : v1.1"
     )
     typer.echo(
         "Module : CLI + Authentication"
+    )
+    typer.echo(
+    "Latest Update : Scan timestamp support"
     )
 
 @app.command()
