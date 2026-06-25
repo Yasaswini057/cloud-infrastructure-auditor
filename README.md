@@ -198,25 +198,26 @@ AWS Cost Optimization CLI Tool
 
 ## Commands
 
-Validate AWS Credentials
-
+### Authentication
 python main.py auth
 
-Scan AWS Infrastructure
-
+### Resource Scan
 python main.py scan
 
-Cleanup EC2 Instance (Dry Run)
-
-python main.py cleanup <instance_id>
-
-Show Version
-
+### Version
 python main.py version
 
-Show Help
-
+### Help
 python main.py help-command
+
+## Project Structure
+
+auth/
+scanner/
+optimizer/
+reports/
+cli/
+aws/
 
 ## Output
 
